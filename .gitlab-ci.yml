@@ -1,0 +1,7 @@
+build-container:skopeo-ssh-alpine:
+  stage: build
+  image: gcr.io/kaniko-project/executor:debug
+  script:
+    - mkdir -p /kaniko/.docker
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+    - /kaniko/executor --context "${CI_PROJECT_DIR}/skopeo-ssh-alpine" --dockerfile "${CI_PROJECT_DIR}/skopeo-ssh-alpine/Dockerfile" --destination "${CI_REGISTRY_IMAGE}/skopeo-ssh-alpine:latest"
